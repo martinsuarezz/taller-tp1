@@ -1,5 +1,5 @@
- *.o
- tp
- Makefile
- 2020.01.ejercicio.1.protocolo_dbus.pdf
- input.txt
+*.o
+tp
+Makefile
+2020.01.ejercicio.1.protocolo_dbus.pdf
+input.txt
