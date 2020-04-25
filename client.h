@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "socket.h"
-#include "fileHandler.h"
+#include "filehandler.h"
 
 typedef struct{
     socket_t socket;
     filehandler_t filehandler;
+    uint32_t msg_number;
 }client_t;
 
 //
@@ -24,3 +25,10 @@ int client_connect(client_t* client, const char*  host, const char* service);
 // PRE: el cliente fue creado y se lo conectó a un servidor. Si from_stdin es 1 lee de stdin.
 // POST: devuelve 1 en caso de error.
 int client_run(client_t* client, const char* filename, int from_stdin);
+
+//Codifica una línea del archivo manejado por el filehandler
+//con el protocolo D-BUS.
+int client_encode(client_t* self,  char* buffer);
+
+//Envía al servidor conectado el mensaje recibido por parámetro.
+int client_send(client_t* self, const char* message);

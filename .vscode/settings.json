@@ -4,6 +4,17 @@
         "stdio.h": "c",
         "string.h": "c",
         "socket.h": "c",
-        "client.h": "c"
+        "client.h": "c",
+        "variant": "c",
+        "array": "c",
+        "dinamicvector.h": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "string_view": "c",
+        "initializer_list": "c"
     }
 }
