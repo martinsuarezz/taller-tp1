@@ -1,3 +1,6 @@
+#ifndef DINAMICVECTOR_H
+#define DINAMICVECTOR_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,3 +23,5 @@ char* dinamicvector_get_array(dinamicvector_t* self);
 size_t dinamicvector_get_length(dinamicvector_t* self);
 
 void dinamicvector_add(dinamicvector_t* self, const char* values, size_t size);
+
+#endif

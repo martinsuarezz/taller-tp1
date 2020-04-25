@@ -1,3 +1,6 @@
+#ifndef SOCKET_H
+#define SOCKET_H
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -29,3 +32,5 @@ int socket_send(socket_t* self, size_t bytes, const char* msg);
 
 //
 int socket_receive(socket_t* self, size_t bytes, char* buffer);
+
+#endif

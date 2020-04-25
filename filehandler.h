@@ -1,3 +1,6 @@
+#ifndef FILEHANDLER_H
+#define FILEHANDLER_H
+
 #include "dinamicvector.h"
 
 typedef struct{
@@ -38,3 +41,5 @@ size_t filehandler_length_of_arguments(filehandler_t* self);
 //Devuelve la cantidad de argumentos que posee el método.
 //PRE: se recibe un puntero a un filehandler_t ya inicializado
 size_t filehandler_ammount_of_arguments(filehandler_t* self);
+
+#endif
