@@ -2,9 +2,13 @@
 #include <stdio.h>   
 #include <stdlib.h>
 
-void dinamicvector_create(dinamicvector_t* self){
+void dinamicvector_create(dinamicvector_t* self, size_t size){
     self->length = 0;
-    self->capacity = 32;
+    if (size > 0)
+        self->capacity = size;
+    else
+        self->capacity = 32;
+    
     self->array = (char*) malloc(sizeof(char) * self->capacity);
 }
 
@@ -27,6 +31,6 @@ void dinamicvector_add(dinamicvector_t* self, const char* values, size_t size){
         self->capacity = self->capacity * 2;
         self->array = (char*) realloc((void*) self->array, sizeof(char) * self->capacity);
     }
-    strncpy(self->array + self->length, values, size);
+    memmove(self->array + self->length, values, size);
     self->length = self->length + size;
 }

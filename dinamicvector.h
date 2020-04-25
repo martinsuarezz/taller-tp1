@@ -9,7 +9,7 @@ typedef struct{
 }dinamicvector_t;
 
 // Crea un vector dinamico
-void dinamicvector_create(dinamicvector_t* self);
+void dinamicvector_create(dinamicvector_t* self, size_t size);
 
 // Destruye el vector dinamico y libera la memoria utilizada
 void dinamicvector_destroy(dinamicvector_t* self);

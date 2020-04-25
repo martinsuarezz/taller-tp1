@@ -24,7 +24,7 @@ int filehandler_create(filehandler_t* self, const char* filename, size_t readbyt
 
 
 char* filehandler_read(filehandler_t* self, char* buffer){
-    return fgets(buffer, self->readbytes, self->file);
+    return fgets(buffer, self->readbytes + 1, self->file);
 }
 
 void clean_bytes(char* buffer, int from, int to){
@@ -46,25 +46,6 @@ void filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
         self->index = 0;
     }
     return;
-}
-
-
-
-size_t filehandler_ammount_of_arguments(filehandler_t* self){
-    int character;
-    size_t ammount = 1;
-    /*
-    if (filehandler_length_of_arguments(self) == 0)
-        return 0;*/
-
-    while (fgetc(self->file) != '(')
-        continue;
-     
-    while ((character = fgetc(self->file)) != ')'){
-        if (character == ',')
-            ammount++;
-    }
-    return ammount;
 }
 
 void filehandler_destroy(filehandler_t* self){
