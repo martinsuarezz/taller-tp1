@@ -13,12 +13,32 @@ void client_destroy(client_t* self){
 
 }
 
+size_t prueba2(dinamicvector_t* vector){
+    return dinamicvector_get_length(vector);
+}
+
+char* prueba(dinamicvector_t* vector){
+    dinamicvector_create(vector, 32);
+    const char values[100] = "\x00\x01\x00\x02\x67x00\x5f\x53\x02\x67";
+    dinamicvector_add(vector, values, 100);
+    return dinamicvector_get_array(vector);
+}
+
 int client_encode_and_send(client_t* self, size_t msg_number){
     encoder_t encoder;
     encoder_create(&encoder);
+    
     char* message = encoder_encode_line(&encoder, &(self->filehandler), msg_number);
+    //size_t message_len = encoder_message_length(&encoder);
     size_t message_len = encoder_message_length(&encoder);
+    /*
+    dinamicvector_t vector;
+    char* message = prueba(&vector);
+    size_t message_len = prueba2(&vector);
+    */
+    
     socket_send(&(self->socket), message_len, (const char*) message);
+    free(message);
     encoder_destroy(&encoder);
     return 0;
 }
@@ -38,5 +58,6 @@ int client_run(client_t* self, const char* filename, int from_stdin){
     self->filehandler = filehandler;
     while(client_encode_and_send(self, msg_number))
         msg_number++;
+    filehandler_destroy(&filehandler);
     return 0;
 }

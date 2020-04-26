@@ -10,6 +10,7 @@ void dinamicvector_create(dinamicvector_t* self, size_t size){
         self->capacity = 32;
     
     self->array = (char*) malloc(sizeof(char) * self->capacity);
+    memset(self->array, '\0', size);
 }
 
 // Destruye el vector dinamico y libera la memoria utilizada
@@ -30,6 +31,7 @@ void dinamicvector_add(dinamicvector_t* self, const char* values, size_t size){
     while (size + self->length > self->capacity){
         self->capacity = self->capacity * 2;
         self->array = (char*) realloc((void*) self->array, sizeof(char) * self->capacity);
+        memset(self->array + self->length, '\0', self->capacity - self->length);
     }
     memmove(self->array + self->length, values, size);
     self->length = self->length + size;

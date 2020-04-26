@@ -7,6 +7,7 @@
 typedef struct{
     dinamicvector_t* line;
     dinamicvector_t* header;
+    size_t message_length;
 } encoder_t;
 
 //Inicializa el encoder
@@ -41,8 +42,17 @@ size_t encoder_get_parameter_length(encoder_t* self, size_t param_number);
 //PRE: el encoder fue inicializado y se llamó a encoder_encode_line().
 size_t encoder_get_parameter_index(encoder_t* self, size_t parameter);
 
+//El encoder devuelve el largo de cierto argumento del método en la línea de comando.
+//PRE: el encoder fue inicializado y se llamó a encoder_encode_line().
+size_t encoder_get_argument_length(encoder_t* self, size_t argument_number);
+
 //El encoder encodea un parametro.
 //PRE: el encoder fue inicializado y se llamó a encoder_encode_line().
 void encoder_encode_parameter(encoder_t* self, size_t parameter);
+
+//El encoder llena el mensaje con un padding de '\0' hasta un multiplo
+//del número recibido por parámetro.
+//PRE: el encoder fue inicializado y se llamó a encoder_encode_line().
+void encoder_add_padding(encoder_t* self, size_t multiple_of);
 
 #endif
