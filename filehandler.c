@@ -22,9 +22,13 @@ int filehandler_create(filehandler_t* self, const char* filename, size_t readbyt
     return 0;
 }
 
+size_t filehandler_is_end_of_file(filehandler_t* self){
+    return feof(self->file);
+}
 
-char* filehandler_read(filehandler_t* self, char* buffer){
-    return fgets(buffer, self->readbytes + 1, self->file);
+
+char* filehandler_read(filehandler_t* self){
+    return fgets(self->readbuffer, self->readbytes + 1, self->file);
 }
 
 void clean_bytes(char* buffer, int from, int to){
@@ -32,6 +36,27 @@ void clean_bytes(char* buffer, int from, int to){
         buffer[i] = '\0';
 }
 
+char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
+    size_t index;
+    size_t continue_reading = 1;
+    while (continue_reading){
+        if(!filehandler_read(self))
+            return NULL;
+        for (index = 0; index < self->readbytes; index++){
+            if (self->readbuffer[index] == '\n'){
+                continue_reading = 0;
+                break;
+            }
+        }
+        /*if (self->readbuffer[index] == '\n')
+            index--;*/
+        dinamicvector_add(vector, self->readbuffer, index);
+    }  
+    return dinamicvector_get_array(vector);
+}
+
+// funcion legacy
+/* 
 void filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
     while (1){
         for (size_t i = self->index; i < self->readbytes; i++){
@@ -47,7 +72,7 @@ void filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
     }
     return;
 }
-
+*/
 void filehandler_destroy(filehandler_t* self){
     if(self->file != stdin)
         fclose(self->file);

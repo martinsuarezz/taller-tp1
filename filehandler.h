@@ -20,14 +20,17 @@ int filehandler_create(filehandler_t* self, const char* filename, size_t readbyt
 //leyendolos del archivo de lectura.
 //PRE: self recibe un puntero a un filehandler_t ya inicializado.
 //POST: el lector del archivo apunta al siguiente caracter del último copiado.
-char* filehandler_read(filehandler_t* self, char* buffer);
+char* filehandler_read(filehandler_t* self);
 
 //Copia al buffer una línea del archivo de entrada.
 //Si la linea es mayor a la cantidad de bytes permitidas se copia una parte
 //y devuelve 1. Si se pudo llegar hasta un salto de línea devuelve 0.
 //PRE: recibe un puntero a un filehandler_t ya inicializado.
 //POST: el lector del archivo apunta al siguiente caracter del último copiado.
-void filehandler_readline(filehandler_t* self, dinamicvector_t* vector);
+char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector);
+
+//Devuelve 1 si llego al final del archivo
+size_t filehandler_is_end_of_file(filehandler_t* self);
 
 //Cierra el archivo utilizado.
 //PRE: se recibe un puntero a un filehandler_t ya inicializado.
