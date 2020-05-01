@@ -14,7 +14,7 @@ void socket_create(socket_t* self){
 }
 
 void socket_destroy(socket_t* self){
-    
+    shutdown(self->socket, SHUT_RDWR);
 }
 
 int socket_connect(socket_t* self, const char* host, const char* service){
@@ -91,7 +91,7 @@ int socket_accept(socket_t* self, socket_t* accepted_socket){
 
 int socket_receive(socket_t* self, size_t bytes, char* buffer){
     ssize_t received = recv(self->socket, buffer, bytes, 0);
-    while(received < (ssize_t) bytes && received != -1)
+    while((received < (ssize_t) bytes) && (received > 0))
         received = received + recv(self->socket, buffer + received, bytes - received, 0);
     return received;
 }

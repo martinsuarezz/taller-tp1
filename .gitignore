@@ -1,4 +1,7 @@
 *.o
+*.txt
+*.in
+*.out
 tp
 client
 server
@@ -8,3 +11,4 @@ input.txt
 tiburoncin/
 .vscode/
 Makefile2
+__server_stdout__

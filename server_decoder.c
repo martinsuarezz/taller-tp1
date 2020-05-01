@@ -27,13 +27,15 @@ void decoder_add_socket(decoder_t* self, socket_t* accepted_socket){
     self->socket = accepted_socket;
 }
 
-void decoder_decode_top_bytes(decoder_t* self){
+int decoder_decode_top_bytes(decoder_t* self){
     socket_t* socket = self->socket;
     message_t* message = &(self->message);
     char buffer[16];
-    socket_receive(socket, 16, buffer);
-    message_add_parameter(message, ID, buffer, 16);
+    if(socket_receive(socket, 16, buffer) <= 0)
+        return -1;
+    message_add_parameter(message, ID, buffer + 8, 4);
     message_set_body_length(message, get_body_length(buffer + 4));
+    return 0;
 }
 
 static int get_parameter_id(char number){
@@ -102,7 +104,8 @@ static void decoder_decode_firm(decoder_t* self){
 }
 
 int decoder_decode(decoder_t* self){
-    decoder_decode_top_bytes(self);
+    if (decoder_decode_top_bytes(self) == -1)
+        return 0;
     size_t ammount_param = decoder_get_ammount_of_parameters(self);
     for (size_t i = 0; i < ammount_param; i++){
         decoder_decode_parameter(self);

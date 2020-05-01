@@ -10,7 +10,8 @@ void client_create(client_t* self){
 }
 
 void client_destroy(client_t* self){
-
+    socket_destroy(&(self->socket));
+    filehandler_destroy(&(self->filehandler));
 }
 
 int client_encode_and_send(client_t* self, size_t msg_number){
@@ -52,7 +53,6 @@ int client_run(client_t* self, const char* filename, int from_stdin){
         msg_number++;
     }
         
-    
-    filehandler_destroy(&filehandler);
+    client_destroy(self);
     return 0;
 }

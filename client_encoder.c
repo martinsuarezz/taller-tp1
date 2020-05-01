@@ -20,22 +20,22 @@ void int32_to_array(char* array, uint32_t number){
 }
 
 size_t encoder_get_ammount_of_arguments(encoder_t* self){
-    size_t ammount = 0;
+    size_t ammount = 1;
     size_t index = 0;
     char* line = dinamicvector_get_array((self->line));
 
-    while(line[index]!= '(')
+    while (line[index]!= '(')
         index++;
+
+    if (line[index+1] == ')')
+        return 0;
 
     while (line[index] != ')'){
         if (line[index] == ',')
             ammount++;
         index++;
     }
-
-    if (ammount == 0)
-        return ammount;
-    return ammount + 1;
+    return ammount;
 }
 
 size_t encoder_get_ammount_of_parameters(encoder_t* self){

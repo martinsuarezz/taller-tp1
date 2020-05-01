@@ -33,6 +33,7 @@ int socket_send(socket_t* self, size_t bytes, const char* msg);
 
 //Recibe la cantidad de bytes indicada por parametro y los almacena
 //en el buffer. Devuelve la cantidad de bytes leidos o -1 si hubo un error.
+//Si se cerró la conexión de parte del cliente devuelve un 0.
 int socket_receive(socket_t* self, size_t bytes, char* buffer);
 
 #endif
