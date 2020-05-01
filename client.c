@@ -7,6 +7,7 @@ void client_create(client_t* self){
     socket_t socket;
     socket_create(&socket);
     self->socket = socket;
+    self->msg_number = 1;
 }
 
 void client_destroy(client_t* self){
@@ -36,21 +37,21 @@ int client_connect(client_t* self, const char*  host, const char* service){
 void client_wait_response(client_t* self){
     char buffer[3];
     socket_receive(&(self->socket), 3, buffer);
+    printf("%#010x: ", self->msg_number);
     printf(buffer);
 }
 
 int client_run(client_t* self, const char* filename, int from_stdin){
     filehandler_t filehandler;
-    size_t msg_number = 1;
     if (from_stdin)
         filehandler_create(&filehandler, NULL, 32);
     else
         filehandler_create(&filehandler, filename, 32);
     
     self->filehandler = filehandler;
-    while(!client_encode_and_send(self, msg_number)){
+    while(!client_encode_and_send(self, (size_t) self->msg_number)){
         client_wait_response(self);
-        msg_number++;
+        self->msg_number++;
     }
         
     client_destroy(self);

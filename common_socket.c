@@ -15,6 +15,7 @@ void socket_create(socket_t* self){
 
 void socket_destroy(socket_t* self){
     shutdown(self->socket, SHUT_RDWR);
+    close(self->socket);
 }
 
 int socket_connect(socket_t* self, const char* host, const char* service){
@@ -37,6 +38,7 @@ int socket_connect(socket_t* self, const char* host, const char* service){
 
         if (connect(s, rp->ai_addr, rp->ai_addrlen) != -1){
             self->socket = s;
+            freeaddrinfo(results);
             return 0;
         }
     }

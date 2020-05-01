@@ -31,5 +31,5 @@ void server_run(server_t* self){
 }
 
 void server_destroy(server_t* self){
-
+    socket_destroy(&(self->socket));
 }

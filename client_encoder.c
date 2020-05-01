@@ -183,8 +183,10 @@ char* encoder_encode_line(encoder_t* self, filehandler_t* filehandler, size_t ms
     dinamicvector_t readline, header;
     dinamicvector_create(&readline, 32);
     self->line = &readline;
-    if(!filehandler_readline(filehandler, &readline))
+    if(!filehandler_readline(filehandler, &readline)){
+        dinamicvector_destroy(self->line);
         return NULL;
+    }
     self->header = &header;
     size_t array_size = encoder_get_array_size(self);
     dinamicvector_create(&header, array_size);

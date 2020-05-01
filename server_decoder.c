@@ -124,7 +124,7 @@ void decoder_print_message(decoder_t* self){
 
 
 void decoder_destroy(decoder_t* self){
-    
+    message_destroy(&(self->message));
 }
 
 void decoder_reset_message(decoder_t* self){

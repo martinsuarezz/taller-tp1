@@ -10,9 +10,10 @@ typedef struct{
     uint32_t msg_number;
 }client_t;
 
-//
+// Se inicializa el cliente
 void client_create(client_t* client);
 
+// Se destruye el cliente liberando los recursos utilizados.
 void client_destroy(client_t* client);
 
 // El cliente se conecta al host y servicio indicados
