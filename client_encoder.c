@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "encoder.h"
+#include "client_encoder.h"
 
 void encoder_create(encoder_t* self){
     self->message_length = 0;

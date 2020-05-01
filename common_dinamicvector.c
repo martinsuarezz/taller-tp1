@@ -1,4 +1,4 @@
-#include "dinamicvector.h"
+#include "common_dinamicvector.h"
 #include <stdio.h>   
 #include <stdlib.h>
 

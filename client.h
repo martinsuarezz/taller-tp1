@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "socket.h"
-#include "filehandler.h"
+#include "common_socket.h"
+#include "client_filehandler.h"
 
 typedef struct{
     socket_t socket;

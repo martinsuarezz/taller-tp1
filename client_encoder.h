@@ -1,8 +1,8 @@
-#ifndef ENCODER_H
-#define ENCODER_H
+#ifndef CLIENT_ENCODER_H
+#define CLIENT_ENCODER_H
 
-#include "filehandler.h"
-#include "dinamicvector.h"
+#include "client_filehandler.h"
+#include "common_dinamicvector.h"
 
 typedef struct{
     dinamicvector_t* line;

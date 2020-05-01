@@ -22,15 +22,17 @@ void socket_destroy(socket_t* self);
 //Conecta el socket al host y servicio recibidos
 int socket_connect(socket_t* self, const char* host, const char* service);
 
+//
 int socket_bind_and_listen(socket_t* self, const char* service);
 
 //
-int socket_accept(socket_t* self, socket_t accepted_socket);
+int socket_accept(socket_t* self, socket_t* accepted_socket);
 
 //
 int socket_send(socket_t* self, size_t bytes, const char* msg);
 
-//
+//Recibe la cantidad de bytes indicada por parametro y los almacena
+//en el buffer. Devuelve la cantidad de bytes leidos o -1 si hubo un error.
 int socket_receive(socket_t* self, size_t bytes, char* buffer);
 
 #endif

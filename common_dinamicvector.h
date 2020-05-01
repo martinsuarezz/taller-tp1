@@ -1,5 +1,5 @@
-#ifndef DINAMICVECTOR_H
-#define DINAMICVECTOR_H
+#ifndef COMMON_DINAMICVECTOR_H
+#define COMMON_DINAMICVECTOR_H
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,7 +1,7 @@
-#ifndef FILEHANDLER_H
-#define FILEHANDLER_H
+#ifndef CLIENT_FILEHANDLER_H
+#define CLIENT_FILEHANDLER_H
 
-#include "dinamicvector.h"
+#include "common_dinamicvector.h"
 
 typedef struct{
     FILE* file;

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "filehandler.h"
+#include "client_filehandler.h"
 
 #define FILENAME_BUFFER_SIZE 40
 
