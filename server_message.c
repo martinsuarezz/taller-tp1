@@ -34,6 +34,7 @@ static void print_body(message_t* self){
         }
         printf("%c", body[i]);
     }
+    printf("\n");
 }
 
 int message_has_body(message_t* self){
@@ -51,24 +52,18 @@ static uint32_t get_id_number(char* number){
 void print_id(message_t* self){
     char* array = dinamicvector_get_array(&(self->parameters[0]));
     uint32_t id = get_id_number(array);
-    printf("* ");
-    printf("Id: ");
-    printf("%#010x\n", id);
+    printf("* Id: %#010x\n", id);
 }
 
 void message_print(message_t* self){
-    const char* text[] = {"Destino: ", "Ruta: ", "Interfaz: ", "Metodo: "};
+    const char* text[] = {"Destino", "Ruta", "Interfaz", "Metodo"};
     print_id(self);
     for (size_t i = 0; i < 4; i++){
-        printf("* ");
-        printf(text[i]);
-        printf(dinamicvector_get_array(&(self->parameters[i+1])));
-        printf("\n");
+        char* array = dinamicvector_get_array(&(self->parameters[i+1]));
+        printf("* %s: %s\n", text[i], array);
     }
-    if (message_has_body(self)){
+    if (message_has_body(self))
         print_body(self);
-        printf("\n");
-    }
     printf("\n");
 }
 
