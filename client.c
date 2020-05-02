@@ -38,7 +38,7 @@ void client_wait_response(client_t* self){
     char buffer[3];
     socket_receive(&(self->socket), 3, buffer);
     printf("%#010x: ", self->msg_number);
-    printf((const char*) buffer);
+    fputs((const char*) buffer, stdout);
 }
 
 int client_run(client_t* self, const char* filename, int from_stdin){
