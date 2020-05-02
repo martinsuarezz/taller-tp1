@@ -25,9 +25,8 @@ size_t filehandler_is_end_of_file(filehandler_t* self){
     return feof(self->file);
 }
 
-
 char* filehandler_read(filehandler_t* self){
-    return fgets(self->readbuffer, self->readbytes + 1, self->file);
+    return fgets(self->readbuffer, self->readbytes, self->file);
 }
 
 void clean_bytes(char* buffer, int from, int to){
@@ -41,7 +40,7 @@ char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
     while (continue_reading){
         if (!filehandler_read(self))
             return NULL;
-        for (index = 0; index < self->readbytes; index++){
+        for (index = 0; index < self->readbytes - 1; index++){
             if (self->readbuffer[index] == '\n'){
                 continue_reading = 0;
                 break;

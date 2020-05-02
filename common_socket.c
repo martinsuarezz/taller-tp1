@@ -64,8 +64,9 @@ int socket_bind_and_listen(socket_t* self, const char* service){
         return -1;
     
     for (rp = result; rp != NULL; rp = rp->ai_next) {
-        sfd = socket(rp->ai_family, rp->ai_socktype,
-                rp->ai_protocol);
+        sfd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+        int val = 1;
+        setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
         if (sfd == -1)
             continue;
 
