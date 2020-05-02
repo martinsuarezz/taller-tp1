@@ -49,18 +49,20 @@ static uint32_t get_id_number(char* number){
 }
 
 void print_id(message_t* self){
+    char* array = dinamicvector_get_array(&(self->parameters[0]));
+    uint32_t id = get_id_number(array);
     printf("* ");
     printf("Id: ");
-    printf("%#010x\n", get_id_number(dinamicvector_get_array(&(self->parameters[0]))));
+    printf("%#010x\n", id);
 }
 
 void message_print(message_t* self){
-    const char* text[] = {"Id: ", "Destino: ", "Ruta: ", "Interfaz: ", "Metodo: "};
+    const char* text[] = {"Destino: ", "Ruta: ", "Interfaz: ", "Metodo: "};
     print_id(self);
-    for (size_t i = 1; i < 5; i++){
+    for (size_t i = 0; i < 4; i++){
         printf("* ");
         printf(text[i]);
-        printf(dinamicvector_get_array(&(self->parameters[i])));
+        printf(dinamicvector_get_array(&(self->parameters[i+1])));
         printf("\n");
     }
     if (message_has_body(self)){
@@ -70,8 +72,8 @@ void message_print(message_t* self){
     printf("\n");
 }
 
-void message_add_parameter(message_t* self, int parameter_id, char* parameter, size_t length){
-    dinamicvector_add(self->parameters + parameter_id, (const char*) parameter, length);
+void message_add_parameter(message_t* self, int id, char* param, size_t len){
+    dinamicvector_add(self->parameters + id, (const char*) param, len);
 }
 
 size_t message_get_body_length(message_t* self){

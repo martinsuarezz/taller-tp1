@@ -29,8 +29,9 @@ size_t dinamicvector_get_length(dinamicvector_t* self){
 
 void dinamicvector_add(dinamicvector_t* self, const char* values, size_t size){
     while (size + self->length > self->capacity){
-        self->capacity = self->capacity * 2;
-        self->array = (char*) realloc((void*) self->array, sizeof(char) * self->capacity);
+        size_t new_capacity  = self->capacity * 2;
+        self->capacity = new_capacity;
+        self->array = (char*)realloc(self->array, sizeof(char) * new_capacity);
         memset(self->array + self->length, '\0', self->capacity - self->length);
     }
     memmove(self->array + self->length, values, size);

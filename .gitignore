@@ -12,3 +12,6 @@ tiburoncin/
 .vscode/
 Makefile2
 __server_stdout__
+*.sh
+*.py
+filter_options

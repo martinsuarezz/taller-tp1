@@ -4,21 +4,20 @@
 
 #define FILENAME_BUFFER_SIZE 40
 
-int filehandler_create(filehandler_t* self, const char* filename, size_t readbytes){
+int filehandler_create(filehandler_t* self, const char* filename, size_t bytes){
     FILE* input_file;
     char buffer[FILENAME_BUFFER_SIZE];
     if (!filename){
         input_file = stdin;
-    }
-    else{
+    } else{
         strncpy(buffer, filename, FILENAME_BUFFER_SIZE - 1);
         input_file = fopen(buffer, "r");
         if (!input_file)
             return 1;
     }
     self->file = input_file;
-    self->readbytes = readbytes;
-    self->index = readbytes;
+    self->readbytes = bytes;
+    self->index = bytes;
     return 0;
 }
 
@@ -40,7 +39,7 @@ char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
     size_t index;
     size_t continue_reading = 1;
     while (continue_reading){
-        if(!filehandler_read(self))
+        if (!filehandler_read(self))
             return NULL;
         for (index = 0; index < self->readbytes; index++){
             if (self->readbuffer[index] == '\n'){
@@ -48,32 +47,12 @@ char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
                 break;
             }
         }
-        /*if (self->readbuffer[index] == '\n')
-            index--;*/
         dinamicvector_add(vector, self->readbuffer, index);
     }  
     return dinamicvector_get_array(vector);
 }
 
-// funcion legacy
-/* 
-void filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
-    while (1){
-        for (size_t i = self->index; i < self->readbytes; i++){
-            if (self->readbuffer[i] == '\n'){
-                dinamicvector_add(vector, self->readbuffer + self->index, i - self->index);
-                self->index = i;
-                return;
-            }
-        }
-        dinamicvector_add(vector, self->readbuffer + self->index, self->readbytes - self->index);
-        filehandler_read(self, self->readbuffer);
-        self->index = 0;
-    }
-    return;
-}
-*/
 void filehandler_destroy(filehandler_t* self){
-    if(self->file != stdin)
+    if (self->file != stdin)
         fclose(self->file);
 }

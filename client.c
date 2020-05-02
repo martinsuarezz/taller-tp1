@@ -15,10 +15,10 @@ void client_destroy(client_t* self){
     filehandler_destroy(&(self->filehandler));
 }
 
-int client_encode_and_send(client_t* self, size_t msg_number){
+int client_encode_and_send(client_t* self, size_t msg_n){
     encoder_t encoder;
     encoder_create(&encoder);
-    char* message = encoder_encode_line(&encoder, &(self->filehandler), msg_number);
+    char* message = encoder_encode_line(&encoder, &(self->filehandler), msg_n);
     if (!message){
         encoder_destroy(&encoder);
         return 1;
@@ -49,7 +49,7 @@ int client_run(client_t* self, const char* filename, int from_stdin){
         filehandler_create(&filehandler, filename, 32);
     
     self->filehandler = filehandler;
-    while(!client_encode_and_send(self, (size_t) self->msg_number)){
+    while (!client_encode_and_send(self, (size_t) self->msg_number)){
         client_wait_response(self);
         self->msg_number++;
     }

@@ -10,14 +10,15 @@ typedef struct{
     size_t index;
 } filehandler_t;
 
-//Inicializa el handler de archivos, recibe un nombre de archivo a abrir, si es NULL lee de stdin.
+//Inicializa el handler de archivos, recibe un nombre de archivo
+//a abrir, si es NULL lee de stdin.
 //Recibe también la cantidad de bytes a leer en cada llamada a filehandler_read
 //PRE: se recibe un puntero a un filehandler_t
 //POST: si encuentra un error devuelve 1, sino devuelve 0
-int filehandler_create(filehandler_t* self, const char* filename, size_t readbytes);
+int filehandler_create(filehandler_t* self, const char* filename, size_t bytes);
 
-//Recibe un handler de archivos y copia al buffer la cantidad designada de bytes 
-//leyendolos del archivo de lectura.
+//Recibe un handler de archivos y copia al buffer la cantidad 
+//designada de bytes leyendolos del archivo de lectura.
 //PRE: self recibe un puntero a un filehandler_t ya inicializado.
 //POST: el lector del archivo apunta al siguiente caracter del último copiado.
 char* filehandler_read(filehandler_t* self);

@@ -17,7 +17,7 @@ void message_destroy(message_t* self);
 void message_print(message_t* self);
 
 // Se le agrega un parametro al mensaje junto con su contenido.
-void message_add_parameter(message_t* self, int parameter_id, char* parameter, size_t length);
+void message_add_parameter(message_t* self, int id, char* param, size_t len);
 
 // Setea el largo que tendrá el cuerpo del mensaje.
 void message_set_body_length(message_t* self, size_t length);

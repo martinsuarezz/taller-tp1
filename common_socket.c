@@ -93,7 +93,7 @@ int socket_accept(socket_t* self, socket_t* accepted_socket){
 
 int socket_receive(socket_t* self, size_t bytes, char* buffer){
     ssize_t received = recv(self->socket, buffer, bytes, 0);
-    while((received < (ssize_t) bytes) && (received > 0))
-        received = received + recv(self->socket, buffer + received, bytes - received, 0);
+    while ((received < (ssize_t) bytes) && (received > 0))
+        received += recv(self->socket, buffer + received, bytes - received, 0);
     return received;
 }

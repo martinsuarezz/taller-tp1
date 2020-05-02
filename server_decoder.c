@@ -31,7 +31,7 @@ int decoder_decode_top_bytes(decoder_t* self){
     socket_t* socket = self->socket;
     message_t* message = &(self->message);
     char buffer[16];
-    if(socket_receive(socket, 16, buffer) <= 0)
+    if (socket_receive(socket, 16, buffer) <= 0)
         return -1;
     message_add_parameter(message, ID, buffer + 8, 4);
     message_set_body_length(message, get_body_length(buffer + 4));
@@ -65,7 +65,10 @@ static void decoder_decode_parameter(decoder_t* self){
         socket_receive(self->socket, 1, character);
         dinamicvector_add(&vector, (const char*) character, 1);
     }
-    message_add_parameter(&(self->message), get_parameter_id(buffer[0]), dinamicvector_get_array(&vector), dinamicvector_get_length(&vector));
+    int id = get_parameter_id(buffer[0]);
+    char* array = dinamicvector_get_array(&vector);
+    size_t length = dinamicvector_get_length(&vector);
+    message_add_parameter(&(self->message), id, array, length);
     dinamicvector_destroy(&vector);
 }
 
@@ -84,7 +87,9 @@ static void decoder_decode_body(decoder_t* self){
             received_bytes++;
         }
     }
-    message_add_parameter(&(self->message), FIRM, dinamicvector_get_array(&vector), dinamicvector_get_length(&vector));
+    size_t length = dinamicvector_get_length(&vector);
+    char* array = dinamicvector_get_array(&vector);
+    message_add_parameter(&(self->message), FIRM, array, length);
     dinamicvector_destroy(&vector);
 }
 

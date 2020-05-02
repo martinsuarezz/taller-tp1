@@ -22,8 +22,10 @@ void client_destroy(client_t* client);
 int client_connect(client_t* client, const char*  host, const char* service);
 
 // El cliente comienza a operar, enviando las instrucciones del
-// archivo de entrada, esperando el OK del servidor e imprimiendo por pantalla el status
-// PRE: el cliente fue creado y se lo conectó a un servidor. Si from_stdin es 1 lee de stdin.
+// archivo de entrada, esperando el OK del servidor e imprimiendo
+// por pantalla el status.
+// PRE: el cliente fue creado y se lo conectó a un servidor. 
+// Si from_stdin es 1 lee de stdin.
 // POST: devuelve 1 en caso de error.
 int client_run(client_t* client, const char* filename, int from_stdin);
 
