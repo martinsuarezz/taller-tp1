@@ -88,12 +88,6 @@ static void decoder_decode_body(decoder_t* self){
     dinamicvector_destroy(&vector);
 }
 
-size_t decoder_get_ammount_of_parameters(decoder_t* self){
-    if (message_has_body(&(self->message)))
-        return 4;
-    return 3;
-}
-
 static void decoder_decode_firm(decoder_t* self){
     char buffer[5];
     socket_receive(self->socket, 5, buffer);
@@ -106,7 +100,7 @@ static void decoder_decode_firm(decoder_t* self){
 int decoder_decode(decoder_t* self){
     if (decoder_decode_top_bytes(self) == -1)
         return 0;
-    size_t ammount_param = decoder_get_ammount_of_parameters(self);
+    size_t ammount_param = 4;
     for (size_t i = 0; i < ammount_param; i++){
         decoder_decode_parameter(self);
     }
