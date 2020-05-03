@@ -24,7 +24,7 @@ A su vez, tanto filehandler_t como encoder_t al tener que manejar mensajes de lo
 
 Una vez que la entrada de datos ya fue traducida, el client_t utiliza el socket_t para enviarlo al servidor y aguarda su respuesta. Mientras que se pueda seguir leyendo líneas, la ejecución continua.
 
-[Diagrama del cliente](https://github.com/martinsuarezz/taller-tp1/img/sequenceDiagram.png)
+[Diagrama del cliente](https://github.com/martinsuarezz/taller-tp1/blob/master/img/sequenceDiagram.png)
 
 ## Servidor
 
@@ -38,4 +38,4 @@ Para decodificar los mensajes que recibe, se utiliza una estructura decoder_t. E
 
 Cuando se termina de decodificar e imprimir un mensaje, se envía la confirmación al cliente y se continua esperando nuevos mensajes.
 
-[Diagrama del servidor](https://github.com/martinsuarezz/taller-tp1/img/sequenceDiagram2.png)
+[Diagrama del servidor](https://github.com/martinsuarezz/taller-tp1/blob/master/img/sequenceDiagram2.png)
