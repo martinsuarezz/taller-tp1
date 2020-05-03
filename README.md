@@ -24,6 +24,8 @@ A su vez, tanto filehandler_t como encoder_t al tener que manejar mensajes de lo
 
 Una vez que la entrada de datos ya fue traducida, el client_t utiliza el socket_t para enviarlo al servidor y aguarda su respuesta. Mientras que se pueda seguir leyendo líneas, la ejecución continua.
 
+[Diagrama del cliente](https://github.com/martinsuarezz/taller-tp1/img/sequenceDiagram.png)
+
 ## Servidor
 
 El servidor esta comandado por la estructura server_t. Esta, al igual que el cliente delega la mayor parte de sus responsabilidades en otras estructuras.
@@ -35,3 +37,5 @@ El servidor, delega su conectividad con el cliente a la estructura socket_t.
 Para decodificar los mensajes que recibe, se utiliza una estructura decoder_t. Esta estructura, a su vez hace uso de una estructura message_t la cual almacena de forma más ordenada los strings que deberá imprimir luego por pantalla.
 
 Cuando se termina de decodificar e imprimir un mensaje, se envía la confirmación al cliente y se continua esperando nuevos mensajes.
+
+[Diagrama del servidor](https://github.com/martinsuarezz/taller-tp1/img/sequenceDiagram2.png)
