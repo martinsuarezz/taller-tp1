@@ -2,16 +2,12 @@
 #include <string.h>
 #include "client_filehandler.h"
 
-#define FILENAME_BUFFER_SIZE 40
-
 int filehandler_create(filehandler_t* self, const char* filename, size_t bytes){
     FILE* input_file;
-    char buffer[FILENAME_BUFFER_SIZE];
     if (!filename){
         input_file = stdin;
     } else{
-        strncpy(buffer, filename, FILENAME_BUFFER_SIZE - 1);
-        input_file = fopen(buffer, "r");
+        input_file = fopen(filename, "r");
         if (!input_file)
             return 1;
     }
@@ -30,8 +26,7 @@ char* filehandler_read(filehandler_t* self){
 }
 
 void clean_bytes(char* buffer, int from, int to){
-    for (int i = from; i < to; i++)
-        buffer[i] = '\0';
+    memset(buffer + from, '\0', to - from);
 }
 
 char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){

@@ -1,6 +1,8 @@
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <endian.h>
 #include "client_encoder.h"
 
 //Redondea el number al múltiplo más cercano de round_to.
@@ -8,8 +10,15 @@ static size_t round_up(size_t number, size_t round_to){
     return ((number + 7) & (-round_to));
 }
 
+// Convierte el numero del endianess local
+// a little endian (protocolo DBUS)
+static uint32_t host_to_dbus(uint32_t number){
+    return htole32(number);
+}
+
 //Copia el numero recibido por parametro al array.
 static void int32_to_array(char* array, uint32_t number){
+    number = host_to_dbus(number);
     char* number_array = (char*) &number;
     for (int i = 0; i < 4; i++)
         array[i] = number_array[i];

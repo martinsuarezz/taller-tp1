@@ -1,20 +1,27 @@
+#define _DEFAULT_SOURCE
 #include "server_decoder.h"
-
+#include <endian.h>
 
 static size_t round_up(size_t number, size_t round_to){
     return ((number + 7) & (-round_to));
 }
 
+// Convierte el numero de little endian (protocolo DBUS)
+// al endianess local.
+static size_t dbus_to_host(uint32_t number){
+    return (size_t) le32toh(number);
+}
+
 static size_t get_paramter_length(char* number){
     uint32_t num;
     memcpy(&num, number, 4);
-    return round_up((size_t) num + 1, 8);
+    return round_up(dbus_to_host(num + 1), 8);
 }
 
 static size_t get_body_length(char* number){
     uint32_t num;
     memcpy(&num, number, 4);
-    return num;
+    return dbus_to_host(num);
 }
 
 void decoder_create(decoder_t* self){
