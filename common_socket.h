@@ -13,7 +13,7 @@ typedef struct{
     int socket;
 }socket_t;
 
-// Se crea un socket
+// Se crea un socket. 
 void socket_create(socket_t* self);
 
 // Se destruye el socket, cerrandolo.
@@ -23,13 +23,16 @@ void socket_destroy(socket_t* self);
 int socket_connect(socket_t* self, const char* host, const char* service);
 
 // El socket escucha conexiones al puerto recibido.
+// Devuelve 0 si ejecuta correctamente, -1 en caso de error.
 int socket_bind_and_listen(socket_t* self, const char* service);
 
 // El socket acepta una conexión entrante.
+// Devuelve 0 si ejecuta correctamente, -1 en caso de error.
 int socket_accept(socket_t* self, socket_t* accepted_socket);
 
 // El socket envía del mensaje la cantidad de bytes indicados.
 // Devuelve la cantidad de bytes que envío satisfactoriamente.
+// Devuelve -1 en caso de error.
 int socket_send(socket_t* self, size_t bytes, const char* msg);
 
 //Recibe la cantidad de bytes indicada por parametro y los almacena

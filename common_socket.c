@@ -10,7 +10,7 @@
 #include "common_socket.h"
 
 void socket_create(socket_t* self){
-    //
+    self->socket = -1;
 }
 
 void socket_destroy(socket_t* self){
@@ -70,7 +70,7 @@ int socket_bind_and_listen(socket_t* self, const char* service){
         if (sfd == -1)
             continue;
 
-        if (bind(sfd, rp->ai_addr, rp->ai_addrlen) == 0)
+        if (bind(sfd, rp->ai_addr, rp->ai_addrlen) == 0 && listen(sfd, 1) == 0)
             break;                  /* Success */
 
         close(sfd);
@@ -80,16 +80,14 @@ int socket_bind_and_listen(socket_t* self, const char* service){
         return -1;
 
     freeaddrinfo(result);
-    if (listen(sfd, 1) == 0){
-        self->socket = sfd;
-        return 0;
-    }
-    return -1;
+    self->socket = sfd;
+    return 0;
 }
 
 int socket_accept(socket_t* self, socket_t* accepted_socket){
-    accepted_socket->socket = accept(self->socket, NULL, NULL);
-    return 1;
+    if ((accepted_socket->socket = accept(self->socket, NULL, NULL)) == -1)
+        return -1;
+    return 0;
 }
 
 int socket_receive(socket_t* self, size_t bytes, char* buffer){
