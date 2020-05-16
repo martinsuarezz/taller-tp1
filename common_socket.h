@@ -19,7 +19,8 @@ void socket_create(socket_t* self);
 // Se destruye el socket, cerrandolo.
 void socket_destroy(socket_t* self);
 
-// Conecta el socket al host y servicio recibidos
+// Conecta el socket al host y servicio recibidos.
+// Devuelve 0 si ejecuta correctamente, -1 en caso de error.
 int socket_connect(socket_t* self, const char* host, const char* service);
 
 // El socket escucha conexiones al puerto recibido.

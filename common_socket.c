@@ -15,7 +15,8 @@ void socket_create(socket_t* self){
 
 void socket_destroy(socket_t* self){
     shutdown(self->socket, SHUT_RDWR);
-    close(self->socket);
+    if (self->socket > 0)
+        close(self->socket);
 }
 
 int socket_connect(socket_t* self, const char* host, const char* service){
@@ -42,7 +43,8 @@ int socket_connect(socket_t* self, const char* host, const char* service){
             return 0;
         }
     }
-    return 1;
+    freeaddrinfo(results);
+    return -1;
 }
 
 int socket_send(socket_t* self, size_t bytes, const char* msg){

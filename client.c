@@ -5,8 +5,11 @@
 
 void client_create(client_t* self){
     socket_t socket;
+    filehandler_t filehandler;
     socket_create(&socket);
+    filehandler_create(&filehandler);
     self->socket = socket;
+    self->filehandler = filehandler;
     self->msg_number = 1;
 }
 
@@ -21,13 +24,14 @@ int client_encode_and_send(client_t* self, size_t msg_n){
     char* message = encoder_encode_line(&encoder, &(self->filehandler), msg_n);
     if (!message){
         encoder_destroy(&encoder);
-        return 1;
+        return 0;
     }
     size_t message_len = encoder_message_length(&encoder);
-    socket_send(&(self->socket), message_len, (const char*) message);
+    if (socket_send(&(self->socket), message_len, (const char*) message) == -1)
+        return -1;
     free(message);
     encoder_destroy(&encoder);
-    return 0;
+    return 1;
 }
 
 int client_connect(client_t* self, const char*  host, const char* service){
@@ -42,18 +46,23 @@ void client_wait_response(client_t* self){
 }
 
 int client_run(client_t* self, const char* filename, int from_stdin){
-    filehandler_t filehandler;
+    int err;
     if (from_stdin)
-        filehandler_create(&filehandler, NULL, 32);
+        err = filehandler_add_file(&(self->filehandler), NULL, 32);
     else
-        filehandler_create(&filehandler, filename, 32);
+        err = filehandler_add_file(&(self->filehandler), filename, 32);
+
+    if (err == 1)
+        return -1;
     
-    self->filehandler = filehandler;
-    while (!client_encode_and_send(self, (size_t) self->msg_number)){
+    err = 0;
+    while ((err=client_encode_and_send(self, (size_t) self->msg_number)) > 0){
         client_wait_response(self);
         self->msg_number++;
     }
-        
-    client_destroy(self);
+
+    if (err == -1)
+        return -1;
+    
     return 0;
 }

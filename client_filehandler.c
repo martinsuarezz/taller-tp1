@@ -2,14 +2,18 @@
 #include <string.h>
 #include "client_filehandler.h"
 
-int filehandler_create(filehandler_t* self, const char* filename, size_t bytes){
+void filehandler_create(filehandler_t* self){
+    self->file = NULL;
+}
+
+int filehandler_add_file(filehandler_t* self, const char* file, size_t bytes){
     FILE* input_file;
-    if (!filename){
+    if (!file){
         input_file = stdin;
     } else{
-        input_file = fopen(filename, "r");
+        input_file = fopen(file, "r");
         if (!input_file)
-            return 1;
+            return -1;
     }
     self->file = input_file;
     self->readbytes = bytes;
@@ -47,6 +51,6 @@ char* filehandler_readline(filehandler_t* self, dinamicvector_t* vector){
 }
 
 void filehandler_destroy(filehandler_t* self){
-    if (self->file != stdin)
+    if (self->file != stdin && self->file != NULL)
         fclose(self->file);
 }

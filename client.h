@@ -26,8 +26,11 @@ int client_connect(client_t* client, const char*  host, const char* service);
 // por pantalla el status.
 // PRE: el cliente fue creado y se lo conectó a un servidor. 
 // Si from_stdin es 1 lee de stdin.
-// POST: devuelve 1 en caso de error.
+// POST: devuelve -1 en caso de error.
 int client_run(client_t* client, const char* filename, int from_stdin);
 
-//Envía al servidor conectado el mensaje recibido por parámetro.
+// Envía al servidor conectado el mensaje recibido por parámetro.
+// Devuelve -1 en caso de error al enviar el mensaje.
+// Devuelve 0 si no hay más mensajes por enviar.
+// Devuelve 1 si envió el mensaje correctamente.
 int client_encode_and_send(client_t* self, size_t msg_number);
