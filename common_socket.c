@@ -46,8 +46,18 @@ int socket_connect(socket_t* self, const char* host, const char* service){
 }
 
 int socket_send(socket_t* self, size_t bytes, const char* msg){
-    return send(self->socket, (const void*) msg, bytes, 0);
+    ssize_t status;
+    ssize_t sent = 0;
+    while (sent < (ssize_t) bytes){
+        status = send(self->socket, (const void*) msg, bytes, 0);
+        if (status <= 0)
+            return -1;
+        sent += status;
+    }
+        
+    return (int)sent;
 }
+     
 
 int socket_bind_and_listen(socket_t* self, const char* service){
     struct addrinfo hints;
@@ -91,8 +101,14 @@ int socket_accept(socket_t* self, socket_t* accepted_socket){
 }
 
 int socket_receive(socket_t* self, size_t bytes, char* buffer){
-    ssize_t received = recv(self->socket, buffer, bytes, 0);
-    while ((received < (ssize_t) bytes) && (received > 0))
-        received += recv(self->socket, buffer + received, bytes - received, 0);
-    return received;
+    ssize_t status;
+    ssize_t received = 0;
+    while (received < (ssize_t) bytes){
+        status = recv(self->socket, buffer + received, bytes - received, 0);
+        if (status <= 0)
+            return 0;
+        received += status;
+    }
+        
+    return (int)received;
 }
