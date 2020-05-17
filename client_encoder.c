@@ -1,8 +1,7 @@
-#define _DEFAULT_SOURCE
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <endian.h>
 #include "client_encoder.h"
 
 //Redondea el number al múltiplo más cercano de round_to.
@@ -10,10 +9,20 @@ static size_t round_up(size_t number, size_t round_to){
     return ((number + 7) & (-round_to));
 }
 
+static uint32_t byteswap(uint32_t number){
+    char* old_number = (char*) &number;
+    char new_number[4] = {0};
+    for (int i = 0; i < 4; i++){
+        new_number[i] = old_number[3 - i];
+    }
+    memcpy(&number, new_number, 4);
+    return number;
+}
+
 // Convierte el numero del endianess local
 // a little endian (protocolo DBUS)
 static uint32_t host_to_dbus(uint32_t number){
-    return htole32(number);
+    return byteswap(htonl(number));
 }
 
 //Copia el numero recibido por parametro al array.
